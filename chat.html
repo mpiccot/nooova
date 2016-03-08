@@ -3,14 +3,15 @@
 <form>
 	<input id="box"></input>
 	<button type="button" onclick="sendMessage()">Send</button>
-	<div id="jews" style="width: 10px;height:10px;position: absolute;top: 70px;left: 50px;background-color:red;"></div>
+	<div id="jews0" style="width: 10px;height:10px;position: absolute;top: 70px;left: 50px;background-color:red;"></div>
+	<div id="jews1" style="width: 10px;height:10px;position: absolute;top: 70px;left: 50px;background-color:blue;"></div>
 </form>
 <div id="log">
 	
 </div>
 <script>
-	//var exampleSocket = new WebSocket("ws://174.109.111.165:8001");
-	var exampleSocket = new WebSocket("ws://localhost:8001");
+	var exampleSocket = new WebSocket("ws://174.109.111.165:8001");
+	//var exampleSocket = new WebSocket("ws://localhost:8001");
 	
 	exampleSocket.onopen = function (evt) {
 	
@@ -25,6 +26,9 @@
 	}
 	
 	exampleSocket.onmessage = function (evt) {
+		var json = JSON.parse(evt.data);
+		document.getElementById("jews" + json.id).style.top = json.y;
+		document.getElementById("jews" + json.id).style.left = json.x;
 		writeToLog("From Server: " + evt.data);	
 	}
 	
@@ -38,9 +42,9 @@
 	function sendMessage(x,y){
 		
 
-		document.getElementById("jews").style.top = y;
-		document.getElementById("jews").style.left = x;
-		exampleSocket.send("X:" + String(x) + "Y:" + String(y));
+		//document.getElementById("jews").style.top = y;
+		//document.getElementById("jews").style.left = x;
+		exampleSocket.send(String(x) + ":" + String(y));
 
 	
 	}
