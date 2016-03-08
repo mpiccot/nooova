@@ -12,7 +12,7 @@
 <script>
 	var exampleSocket = new WebSocket("ws://174.109.111.165:8001");
 	//var exampleSocket = new WebSocket("ws://localhost:8001");
-	
+	var boxes = []
 	exampleSocket.onopen = function (evt) {
 	
 		if (evt.returnValue){
@@ -27,11 +27,23 @@
 	
 	exampleSocket.onmessage = function (evt) {
 		var json = JSON.parse(evt.data);
+		if (boxes.length <= json.id){
+			createBox(json.id)
+		
+		}
 		document.getElementById("jews" + json.id).style.top = json.y;
 		document.getElementById("jews" + json.id).style.left = json.x;
-		writeToLog("From Server: " + evt.data);	
+		//writeToLog("From Server: " + evt.data);	
 	}
-	
+	function createBox(id){
+		var box = document.createElement('div');
+		box.id = "jews"+id;
+		box.style.backgroundColor = 'green'
+		box.style.position = 'absolute'
+		box.style.width = '10px'
+		box.style.height = '10px'
+		document.body.appendChild(box);
+	}
 	function writeToLog(message){
 		var log = document.getElementById("log");
 		var p = document.createElement("p");
