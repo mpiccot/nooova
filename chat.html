@@ -1,0 +1,45 @@
+<html>
+<body>
+<form>
+	<input id="box"></input>
+	<button type="button" onclick="sendMessage()">Send</button>
+</form>
+<div id="log">
+	
+</div>
+<script>
+	var exampleSocket = new WebSocket("ws://localhost:8001");
+	
+	exampleSocket.onopen = function (evt) {
+	
+		if (evt.returnValue){
+			writeToLog("Connected To Server")		
+		} else {
+			writeToLog("Failed To Connect To Server")
+		
+		}
+			
+	
+	}
+	
+	exampleSocket.onmessage = function (evt) {
+		writeToLog("From Server: " + evt.data);	
+	}
+	
+	function writeToLog(message){
+		var log = document.getElementById("log");
+		var p = document.createElement("p");
+		p.innerText = message;
+		log.appendChild(p);	
+	}
+	
+	function sendMessage(){
+		var chat = document.getElementById("box")
+		exampleSocket.send(chat.value);
+		chat.value = "";
+	
+	
+	}
+</script>
+</body>
+</html>
