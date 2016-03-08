@@ -20,7 +20,7 @@ var server = ws.createServer(function (conn) {
 	console.log("New connection")
 	conn.on("text", function (str) {
 		console.log("Received "+str)
-		var json = {id : conn.id, event: 'Message Recieved', value: str}
+		var json = {id : conn.id, event: 'Message Recieved', x: str.split(":")[0], y: str.split(":")[1]}
 		sendMessage(JSON.stringify(json));
 	})
 	conn.on("close", function (code, reason) {
